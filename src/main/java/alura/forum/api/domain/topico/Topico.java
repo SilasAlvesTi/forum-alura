@@ -69,6 +69,15 @@ public class Topico {
             this.curso.atualizarInformacoes(dados.curso());
         }
         
+    }
+
+    public void arquivar() {
+        this.status = Status.ARQUIVADO;
     } 
+
+    public void deletar() {
+        this.status = Status.DELETADO;
+    } 
+
 
 }
