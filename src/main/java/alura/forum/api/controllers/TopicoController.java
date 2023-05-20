@@ -9,11 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import alura.forum.api.domain.topico.DadosAtualizacaoTopico;
 import alura.forum.api.domain.topico.DadosDetalhamentoTopico;
 import alura.forum.api.domain.topico.DadosListagemTopico;
 import alura.forum.api.domain.topico.DadosPostagemTopico;
@@ -33,10 +35,7 @@ public class TopicoController {
     @PostMapping
     @Transactional
     public ResponseEntity<DadosDetalhamentoTopico> postar(@RequestBody @Valid DadosPostagemTopico dados, UriComponentsBuilder uriBuilder) {
-        Topico topicoDuplicado = repository.findByTituloAndMensagem(dados.titulo(), dados.mensagem());
-        if (topicoDuplicado != null) {
-            throw new TopicoDuplicadoException("Já existe um tópico com o mesmo título e mensagem.");
-        }
+        topicoTemTituloEMensagemRepetidos(dados.titulo(), dados.mensagem());
 
         Topico topico = new Topico(dados);
         repository.save(topico);
@@ -57,6 +56,24 @@ public class TopicoController {
         Topico topico = repository.getReferenceById(id);
 
         return ResponseEntity.ok(new DadosDetalhamentoTopico(topico));
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DadosDetalhamentoTopico> atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizacaoTopico dados) {
+        topicoTemTituloEMensagemRepetidos(dados.titulo(), dados.mensagem());
+
+        Topico topico = repository.getReferenceById(id);
+        topico.atualizarInformacoes(dados);
+
+        return ResponseEntity.ok(new DadosDetalhamentoTopico(topico));
+    }
+
+    private void topicoTemTituloEMensagemRepetidos(String titulo, String mensagem){
+        Topico topicoDuplicado = repository.findByTituloAndMensagem(titulo, mensagem);
+        if (topicoDuplicado != null) {
+            throw new TopicoDuplicadoException("Já existe um tópico com o mesmo título e mensagem.");
+        }
     }
     
 }

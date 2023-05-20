@@ -17,4 +17,10 @@ public class Curso {
     public Curso(DadosCurso dados) {
         this.nome = dados.nome();
     }
+
+    public void atualizarInformacoes(DadosCurso dados) {
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+    }
 }

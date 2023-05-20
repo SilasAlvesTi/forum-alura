@@ -17,4 +17,10 @@ public class Autor {
     public Autor(DadosAutor dados) {
         this.nome = dados.nome();
     }
+
+    public void atualizarInformacoes(DadosAutor dados) {
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+    }
 }

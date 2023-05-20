@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class TradadorDeErros {
 
     @ExceptionHandler(TopicoDuplicadoException.class)
-    public ResponseEntity<String> handleDuplicatedDataException(TopicoDuplicadoException ex) {
+    public ResponseEntity<String> trataErro409(TopicoDuplicadoException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
     

@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -51,6 +52,23 @@ public class Topico {
         this.status = Status.PUBLICADO;
         this.autor = new Autor(dados.autor());
         this.curso = new Curso(dados.curso());
+    }
+
+
+    public void atualizarInformacoes(@Valid DadosAtualizacaoTopico dados) {
+        if (dados.titulo() != null) {
+            this.titulo = dados.titulo();
+        }
+        if (dados.mensagem() != null) {
+            this.mensagem = dados.mensagem();
+        }
+        if (dados.autor() != null) {
+            this.autor.atualizarInformacoes(dados.autor());
+        }
+        if (dados.curso() != null) {
+            this.curso.atualizarInformacoes(dados.curso());
+        }
+        
     } 
 
 }
