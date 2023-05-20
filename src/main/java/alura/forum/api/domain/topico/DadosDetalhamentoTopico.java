@@ -3,6 +3,7 @@ package alura.forum.api.domain.topico;
 import java.time.LocalDateTime;
 
 import alura.forum.api.domain.autor.Autor;
+import alura.forum.api.domain.curso.Curso;
 
 public record DadosDetalhamentoTopico(
     Long id,
@@ -11,7 +12,7 @@ public record DadosDetalhamentoTopico(
     LocalDateTime dataCriacao,
     Status status,
     Autor autor,
-    String curso
+    Curso curso
 
 ) {
 

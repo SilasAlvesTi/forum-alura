@@ -1,4 +1,4 @@
-package alura.forum.api.domain.autor;
+package alura.forum.api.domain.curso;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Autor {
-    @Column(name = "autor")
+public class Curso {
+    @Column(name = "curso")
     private String nome;
 
-    public Autor(DadosAutor dados) {
+    public Curso(DadosCurso dados) {
         this.nome = dados.nome();
     }
 }

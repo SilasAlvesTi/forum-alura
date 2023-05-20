@@ -3,6 +3,7 @@ package alura.forum.api.domain.topico;
 import java.time.LocalDateTime;
 
 import alura.forum.api.domain.autor.Autor;
+import alura.forum.api.domain.curso.Curso;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -40,7 +41,7 @@ public class Topico {
 
     @Embedded
     private Autor autor;
-    private String curso;
+    private Curso curso;
 
 
     public Topico(DadosPostagemTopico dados) {
@@ -49,7 +50,7 @@ public class Topico {
         this.dataCriacao = LocalDateTime.now();
         this.status = Status.PUBLICADO;
         this.autor = new Autor(dados.autor());
-        this.curso = dados.curso();
+        this.curso = new Curso(dados.curso());
     } 
 
 }
