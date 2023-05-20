@@ -15,8 +15,9 @@ import jakarta.persistence.EntityNotFoundException;
 public class TradadorDeErros {
 
     @ExceptionHandler(TopicoDuplicadoException.class)
-    public ResponseEntity<String> trataErro409(TopicoDuplicadoException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    public ResponseEntity<ExceptionMessage> trataErro409(TopicoDuplicadoException ex) {
+        ExceptionMessage message = new ExceptionMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
     }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
