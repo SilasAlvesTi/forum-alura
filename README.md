@@ -22,8 +22,10 @@ O projeto é uma API REST para gerenciamento de um fórum. Sua modelagem foi bas
 - ``Spring Boot 3``
 - ``Spring Boot jpa``
 - ``Spring Boot validation``
+- ``Spring Boot security``
 - ``FlyWay``
 - ``MySql``
+- ``JWT``
 
 # :question: Para rodar o projeto é necessário
 - JDK 16+
