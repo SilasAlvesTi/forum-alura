@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import alura.forum.api.domain.usuario.DadosAutenticacao;
 import alura.forum.api.domain.usuario.Usuario;
+import alura.forum.api.infra.security.DadosTokenJWT;
 import alura.forum.api.infra.security.TokenService;
 import jakarta.validation.Valid;
 
@@ -25,11 +26,12 @@ public class AutenticacaoController {
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<String> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-        var authentication = manager.authenticate(token);
+    public ResponseEntity<DadosTokenJWT> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+        var authentication = manager.authenticate(authenticationToken);
 
-        return ResponseEntity.ok(tokenService.gerarToken((Usuario) authentication.getPrincipal()));
+        var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
     
 }
