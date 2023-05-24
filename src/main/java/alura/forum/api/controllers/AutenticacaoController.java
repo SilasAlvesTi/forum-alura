@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import alura.forum.api.domain.usuario.DadosAutenticacao;
+import alura.forum.api.domain.usuario.Usuario;
+import alura.forum.api.infra.security.TokenService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -19,12 +21,15 @@ public class AutenticacaoController {
     @Autowired
     private AuthenticationManager manager;
 
-    @PostMapping
-    public ResponseEntity<Void> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-        var authenticate = manager.authenticate(token);
+    @Autowired
+    private TokenService tokenService;
 
-        return ResponseEntity.ok().build();
+    @PostMapping
+    public ResponseEntity<String> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+        var authentication = manager.authenticate(token);
+
+        return ResponseEntity.ok(tokenService.gerarToken((Usuario) authentication.getPrincipal()));
     }
     
 }
