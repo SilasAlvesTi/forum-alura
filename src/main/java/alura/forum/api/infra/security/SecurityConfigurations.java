@@ -23,13 +23,14 @@ public class SecurityConfigurations {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().authorizeHttpRequests()
+        return http.csrf(csrf -> csrf.disable())
+        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.POST, "/login").permitAll()
             .anyRequest().authenticated()
-            .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
+        )
+        .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+        .build();
     }
 
     @Bean
